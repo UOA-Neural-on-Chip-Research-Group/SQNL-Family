@@ -32,3 +32,12 @@ def tf_sqlu(x):
     cond = tf.greater(a,tf.constant(0.0))
     return tf.where(cond, a, t)
 get_custom_objects().update({'custom_activation': Activation(tf_sqlu)})
+
+
+def tf_sqsoftplus(x):
+    u=tf.clip_by_value(x,-0.5,255)
+    a = u
+    t = ((a+0.5)**2)/2.0 
+    cond = tf.greater(a,tf.constant(0.0))
+    return tf.where(cond, a, t)
+get_custom_objects().update({'custom_activation': Activation(tf_sqsoftplus)})
