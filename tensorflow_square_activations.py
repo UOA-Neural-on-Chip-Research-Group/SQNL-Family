@@ -33,7 +33,6 @@ def tf_sqlu(x):
     return tf.where(cond, a, t)
 get_custom_objects().update({'custom_activation': Activation(tf_sqlu)})
 
-
 def tf_sqsoftplus(x):
     u=tf.clip_by_value(x,-0.5,255)
     a = u
@@ -41,3 +40,24 @@ def tf_sqsoftplus(x):
     cond = tf.greater(a,tf.constant(0.0))
     return tf.where(cond, a, t)
 get_custom_objects().update({'custom_activation': Activation(tf_sqsoftplus)})
+
+def sqreu(x):    
+    u=tf.clip_by_value(x,-2,200)    
+    a = u    alpha = 1.0    
+    t = alpha*(a + 2.0*(a*a)/4.0)      
+    return tf.maximum(0.0, a) + tf.minimum(0.0,t)
+get_custom_objects().update({'custom_activation': Activation(sqreu)})
+
+def sqish(x):    
+    u=tf.clip_by_value(x,-2,200)    
+    a = u    
+    alpha = 1.0    
+    at = a + (a*a)/32.0    
+    t = alpha*(a + 2*(a*a)/4.0)     
+    return tf.maximum(0.0, at) + tf.minimum(0.0,t)
+get_custom_objects().update({'custom_activation': Activation(sqish)})
+
+
+def sqmax(x):  
+    return (x*x) / tf.math.reduce_sum((x*x))
+get_custom_objects().update({'sqmax': Activation(sqmax)})
