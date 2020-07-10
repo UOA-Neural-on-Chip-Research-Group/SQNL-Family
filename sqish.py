@@ -1,3 +1,6 @@
+import tensorflow as tf
+import numpy as np
+import keras
 
 def sqish(x):    
     u=tf.clip_by_value(x,-2,200)    
